@@ -407,7 +407,7 @@ function signTransaction(
     buffer.writeUInt8(signature.recovery + 31, 0);
     signature.data.copy(buffer, 1);
     console.log('[signTransaction] signature. buffer', buffer);
-    const sigString = buffer.toString('hex');
+    const sigString = buffer.toString();
     console.log('[signTransaction] signature.tostring', sigString);
 
     signedTransaction.signatures.push(sigString);
