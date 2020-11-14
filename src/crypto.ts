@@ -390,10 +390,15 @@ function signTransaction(
     const signature = key.sign(digest);
 
     console.log('[signTransaction] signature', signature);
-    const buffer = signature.toBuffer();
-    console.log('[signTransaction] buffer', buffer);
+
+    const buffer = Buffer.alloc(65);
+    buffer.writeUInt8(signature.recovery + 31, 0);
+    console.log('[sendOperations] signature. buffer0', buffer);
+    signature.data.copy(buffer, 1);
+    console.log('[sendOperations] signature. buffer', buffer);
     const sigString = buffer.toString('hex');
-    console.log('[signTransaction] sigString', sigString);
+    console.log('[sendOperations] signature.tostring', sigString);
+
     signedTransaction.signatures.push(sigString);
 
     //    signedTransaction.signatures.push(signature.toString())
