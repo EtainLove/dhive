@@ -415,7 +415,7 @@ function signTransaction(
       Object.values(buffer)
     );
 
-    const sigString = buffer.toString();
+    const sigString = buffer.toString('hex');
     console.log('[signTransaction] signature.tostring', sigString);
 
     signedTransaction.signatures.push(sigString);
