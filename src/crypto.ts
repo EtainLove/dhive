@@ -379,7 +379,13 @@ function signTransaction(
   keys: PrivateKey | PrivateKey[],
   chainId: Buffer = DEFAULT_CHAIN_ID
 ) {
+  console.log('[signTransaction] transaction', transaction);
+
   const digest = transactionDigest(transaction, chainId);
+  console.log('[signTransaction] chainId', chainId);
+
+  console.log('[signTransaction] digest', digest);
+
   const signedTransaction = copy(transaction) as SignedTransaction;
   if (!signedTransaction.signatures) {
     signedTransaction.signatures = [];
@@ -388,16 +394,23 @@ function signTransaction(
   if (!Array.isArray(keys)) {
     keys = [keys];
   }
+
+  console.log('[signTransaction] keys', keys);
+
   for (const key of keys) {
     const signature = key.sign(digest);
 
     console.log('[signTransaction] signature', signature);
-
-    const buffer = Buffer.alloc(65);
-    buffer.writeUInt8(signature.recovery + 31, 0);
-    console.log('[sendOperations] signature. buffer0', buffer);
-    signature.data.copy(buffer, 1);
+    // to buffer
+    const buffer = signature.toBuffer();
     console.log('[sendOperations] signature. buffer', buffer);
+    // // to string of hex
+    // let sigString = '';
+    if (typeof buffer === 'object') {
+      //   const buf = Buffer.from()
+      //   sigString =
+      console.log('[sendOperations] typeof buffer is object', typeof buffer);
+    }
     const sigString = buffer.toString('hex');
     console.log('[sendOperations] signature.tostring', sigString);
 
