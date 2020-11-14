@@ -46,6 +46,8 @@ import { SignedTransaction, Transaction } from './chain/transaction';
 import { DEFAULT_ADDRESS_PREFIX, DEFAULT_CHAIN_ID } from './client';
 import { copy } from './utils';
 
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
 /**
  * Network id used in WIF-encoding.
  */
