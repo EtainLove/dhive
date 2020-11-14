@@ -402,17 +402,13 @@ function signTransaction(
 
     console.log('[signTransaction] signature', signature);
     // to buffer
-    const buffer = signature.toBuffer();
-    console.log('[sendOperations] signature. buffer', buffer);
-    // // to string of hex
-    // let sigString = '';
-    if (typeof buffer === 'object') {
-      //   const buf = Buffer.from()
-      //   sigString =
-      console.log('[sendOperations] typeof buffer is object', typeof buffer);
-    }
+    //    const buffer = signature.toBuffer();
+    const buffer = Buffer.alloc(65);
+    buffer.writeUInt8(signature.recovery + 31, 0);
+    signature.data.copy(buffer, 1);
+    console.log('[signTransaction] signature. buffer', buffer);
     const sigString = buffer.toString('hex');
-    console.log('[sendOperations] signature.tostring', sigString);
+    console.log('[signTransaction] signature.tostring', sigString);
 
     signedTransaction.signatures.push(sigString);
 
