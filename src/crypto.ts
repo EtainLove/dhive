@@ -407,6 +407,14 @@ function signTransaction(
     buffer.writeUInt8(signature.recovery + 31, 0);
     signature.data.copy(buffer, 1);
     console.log('[signTransaction] signature. buffer', buffer);
+    console.log('[signTransaction] signature. buffer[0]', buffer[0]);
+    console.log('[signTransaction] signature. buffer[64]', buffer[64]);
+    console.log('[signTransaction] signature. buffer type', typeof buffer);
+    console.log(
+      '[signTransaction] signature. buffer values',
+      Object.values(buffer)
+    );
+
     const sigString = buffer.toString();
     console.log('[signTransaction] signature.tostring', sigString);
 
