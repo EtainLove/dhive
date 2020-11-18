@@ -142,8 +142,6 @@ export class BroadcastAPI {
   public async vote(vote: VoteOperation[1], key: PrivateKey) {
     const op: Operation = ['vote', vote];
 
-    console.log('[dblurt] vote. op', op);
-
     return this.sendOperations([op], key);
   }
 

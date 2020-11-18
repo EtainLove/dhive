@@ -272,9 +272,9 @@ export class Client {
     }
 
     // Testnet details: https://gitlab.syncad.com/hive/hive/-/issues/36
-    opts.addressPrefix = 'STM';
+    opts.addressPrefix = 'BLT';
     opts.chainId =
-      'beeab0de00000000000000000000000000000000000000000000000000000000';
+      'cd8d90f29ae273abec3eaa7731e25934c63eb654d55080caff2ebb7f5df6381f';
     return new Client('https://hive-test-beeabode.roelandp.nl', opts);
   }
 
