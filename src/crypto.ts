@@ -407,16 +407,18 @@ function signTransaction(
     buffer.writeUInt8(signature.recovery + 31, 0);
     signature.data.copy(buffer, 1);
     console.log('[signTransaction] signature. buffer', buffer);
-    console.log('[signTransaction] signature. buffer[0]', buffer[0]);
-    console.log('[signTransaction] signature. buffer[64]', buffer[64]);
-    console.log('[signTransaction] signature. buffer type', typeof buffer);
-    console.log(
-      '[signTransaction] signature. buffer values',
-      Object.values(buffer)
-    );
-
-    const sigString = buffer.toString();
+    const sigString = buffer.toString('hex');
     console.log('[signTransaction] signature.tostring', sigString);
+
+    // without signature
+    const buffer2 = Buffer.alloc(65);
+    const data: Buffer = signature.data;
+    const recovery: number = signature.recovery;
+    buffer2.writeUInt8(recovery + 31, 0);
+    data.copy(buffer2, 1);
+    console.log('[signTransaction] signature2. buffer2', buffer2);
+    const sigString2 = buffer2.toString('hex');
+    console.log('[signTransaction] signature2.tostring', sigString2);
 
     signedTransaction.signatures.push(sigString);
 
