@@ -402,27 +402,36 @@ function signTransaction(
     const signature = key.sign(digest);
     console.log('[signTransaction] signature', signature);
 
-    const signature2 = _signTransaction(key.key, digest);
-    console.log('[signTransaction] signature2', signature2);
+    const buffer = signature.toBuffer();
+    const sigString = Array.prototype.map
+      .call(new Uint8Array(buffer), (x) => ('00' + x.toString(16)).slice(-2))
+      .join('')
+      .match(/[a-fA-F0-9]{2}/g)
+      .join('');
+
+    console.log('[signTransaction] signature.tostring', sigString);
+
+    // const signature2 = _signTransaction(key.key, digest);
+    // console.log('[signTransaction] signature2', signature2);
 
     // to buffer
     //    const buffer = signature.toBuffer();
-    const buffer = Buffer.alloc(65);
-    buffer.writeUInt8(signature.recovery + 31, 0);
-    signature.data.copy(buffer, 1);
-    console.log('[signTransaction] signature. buffer', buffer);
-    const sigString = buffer.toString('hex');
-    console.log('[signTransaction] signature.tostring', sigString);
+    // const buffer = Buffer.alloc(65);
+    // buffer.writeUInt8(signature.recovery + 31, 0);
+    // signature.data.copy(buffer, 1);
+    // console.log('[signTransaction] signature. buffer', buffer);
+    // const sigString = buffer.toString('hex');
+    // console.log('[signTransaction] signature.tostring', sigString);
 
-    // without signature
-    const buffer2 = Buffer.alloc(65);
-    const data: Buffer = signature2.data;
-    const recovery: number = signature2.recovery;
-    buffer2.writeUInt8(recovery + 31, 0);
-    data.copy(buffer2, 1);
-    console.log('[signTransaction] signature2. buffer2', buffer2);
-    const sigString2 = buffer2.toString('hex');
-    console.log('[signTransaction] signature2.tostring', sigString2);
+    // // without signature
+    // const buffer2 = Buffer.alloc(65);
+    // const data: Buffer = signature2.data;
+    // const recovery: number = signature2.recovery;
+    // buffer2.writeUInt8(recovery + 31, 0);
+    // data.copy(buffer2, 1);
+    // console.log('[signTransaction] signature2. buffer2', buffer2);
+    // const sigString2 = buffer2.toString('hex');
+    // console.log('[signTransaction] signature2.tostring', sigString2);
 
     signedTransaction.signatures.push(sigString);
 
