@@ -727,7 +727,7 @@ declare module 'dhive/crypto' {
 	 * ECDSA (secp256k1) private key.
 	 */
 	export class PrivateKey {
-	    private key;
+	    key: Buffer;
 	    constructor(key: Buffer);
 	    /**
 	     * Convenience to create a new instance from WIF string or buffer.

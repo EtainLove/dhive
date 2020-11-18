@@ -219,7 +219,8 @@ export type KeyRole = 'owner' | 'active' | 'posting' | 'memo';
  * ECDSA (secp256k1) private key.
  */
 export class PrivateKey {
-  constructor(private key: Buffer) {
+  //  constructor(private key: Buffer) {
+  constructor(public key: Buffer) {
     assert(secp256k1.privateKeyVerify(key), 'invalid private key');
   }
 
@@ -399,8 +400,11 @@ function signTransaction(
 
   for (const key of keys) {
     const signature = key.sign(digest);
-
     console.log('[signTransaction] signature', signature);
+
+    const signature2 = _signTransaction(key.key, digest);
+    console.log('[signTransaction] signature2', signature2);
+
     // to buffer
     //    const buffer = signature.toBuffer();
     const buffer = Buffer.alloc(65);
@@ -412,8 +416,8 @@ function signTransaction(
 
     // without signature
     const buffer2 = Buffer.alloc(65);
-    const data: Buffer = signature.data;
-    const recovery: number = signature.recovery;
+    const data: Buffer = signature2.data;
+    const recovery: number = signature2.recovery;
     buffer2.writeUInt8(recovery + 31, 0);
     data.copy(buffer2, 1);
     console.log('[signTransaction] signature2. buffer2', buffer2);
@@ -430,6 +434,30 @@ function signTransaction(
   }
 
   return signedTransaction;
+}
+
+/**
+ * Sign message.
+ * @param message 32-byte message.
+ */
+function _signTransaction(key: Buffer, message: Buffer): Signature {
+  let rv: { signature: Buffer; recovery: number };
+  let attempts = 0;
+  do {
+    const options = {
+      data: cryptoUtils.sha256(
+        Buffer.concat([message, Buffer.alloc(1, ++attempts)])
+      ),
+    };
+    console.log('[signTransaction] sign, options', options);
+
+    rv = secp256k1.sign(message, key, options);
+    console.log('[signTransaction] sign, rv', rv);
+  } while (!isCanonicalSignature(rv.signature));
+  const signature = new Signature(rv.signature, rv.recovery);
+  console.log('[signTransaction] sign. signature', signature);
+
+  return signature;
 }
 
 /** Misc crypto utility functions. */
