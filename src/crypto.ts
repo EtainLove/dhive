@@ -415,14 +415,7 @@ function signTransaction(
       Object.values(buffer)
     );
 
-    const buffer2 = Object.values(buffer);
-    console.log(
-      '[signTransaction] signature. buffer2',
-      buffer2,
-      typeof buffer2
-    );
-
-    const sigString = buffer2.toString();
+    const sigString = buffer.toString();
     console.log('[signTransaction] signature.tostring', sigString);
 
     signedTransaction.signatures.push(sigString);
