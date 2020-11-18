@@ -33,7 +33,6 @@
   ],
   "dependencies": {
     "bs58": "^4.0.1",
-    "buffer": "^6.0.2",
     "bytebuffer": "^5.0.1",
     "core-js": "^3.6.4",
     "cross-fetch": "^3.0.4",
